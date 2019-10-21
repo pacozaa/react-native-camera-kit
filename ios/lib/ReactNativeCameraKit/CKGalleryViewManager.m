@@ -1,3 +1,22 @@
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@pacozaa 
+392
+198
+908238wix/react-native-camera-kit
+ Code Issues 116 Pull requests 38 Actions Projects 0 Wiki Security Insights
+react-native-camera-kit/ios/lib/ReactNativeCameraKit/CKGalleryViewManager.m
+@RyanCommits RyanCommits syntax fix
+c1b6bb8 18 days ago
+@gran33@artald@RyanCommits@yedidyak@silyevsk@kyunghoon
+951 lines (716 sloc)  35.9 KB
+  
 //
 //  CKGalleryViewManager.m
 //  ReactNativeCameraKit
@@ -861,6 +880,11 @@ RCT_EXPORT_METHOD(modifyGalleryViewContentOffset:(NSDictionary*)params) {
     [[PHCachingImageManager defaultManager] requestImageDataForAsset:asset options:imageRequestOptions resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
         
         NSString *fileName = ((NSURL*)info[@"PHImageFileURLKey"]).lastPathComponent;
+
+        if (!fileName) {
+            fileName = ((NSURL*)info[@"PHImageFileUTIKey"]).lastPathComponent;
+        }
+
         fileName = [CKGalleryViewManager handleNonJPEGOrPNGFormatsFileName:fileName dataUTI:dataUTI];
         imageData = [CKGalleryViewManager handleNonJPEGOrPNGFormatsData:imageData dataUTI:dataUTI];
         
@@ -869,6 +893,10 @@ RCT_EXPORT_METHOD(modifyGalleryViewContentOffset:(NSDictionary*)params) {
         UIImage *compressedImage = [UIImage imageWithData:imageData];
         
         NSURL *fileURLKey = info[@"PHImageFileURLKey"];
+
+        if (!fileURLKey) {
+            fileURLKey = info[@"PHImageFileUTIKey"];
+        }
         
         if (fileURLKey) {
             
@@ -939,3 +967,15 @@ RCT_EXPORT_METHOD(modifyGalleryViewContentOffset:(NSDictionary*)params) {
 
 
 @end
+© 2019 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
